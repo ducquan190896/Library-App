@@ -70,4 +70,22 @@ public class Message {
     @Column(name = "closed", nullable = false)
     private boolean closed;
 
+
+    public Message( String title, Users user, String question,
+            LocalDateTime questionTime) {
+        this.title = title;
+        this.user = user;
+        this.question = question;
+        this.questionTime = questionTime;
+        this.closed = false;
+        
+    }
+
+    public void updateAnswer(String answer, Users admin, LocalDateTime answerTime) {
+        this.admin = admin;
+        this.answer = answer;
+        this.answerTime = answerTime;
+        this.closed = true;
+    }
+    
 }

@@ -14,6 +14,6 @@ import javax.validation.Payload;
 public @interface RatingSize {
     
      String message() default "the rating is not valid";
-    Class<?>[] group() default {};
+    Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

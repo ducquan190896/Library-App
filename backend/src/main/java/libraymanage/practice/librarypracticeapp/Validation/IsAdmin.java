@@ -13,6 +13,6 @@ import javax.validation.Payload;
 @Constraint(validatedBy = AdminValidator.class)
 public @interface IsAdmin {
     String message() default "the role of user is not admin";
-    Class<?>[] group() default {};
+    Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

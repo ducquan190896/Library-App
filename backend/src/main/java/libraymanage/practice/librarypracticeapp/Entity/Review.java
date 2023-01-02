@@ -57,6 +57,17 @@ public class Review {
     )
     private Users user;
 
+    
+
+
+    public Review(int rating, String reviewDescription, Book book, Users user, LocalDateTime date) {
+        this.rating = rating;
+        this.reviewDescription = reviewDescription;
+        this.book = book;
+        this.user = user;
+        this.date = date;
+    }
+
 
 
 
