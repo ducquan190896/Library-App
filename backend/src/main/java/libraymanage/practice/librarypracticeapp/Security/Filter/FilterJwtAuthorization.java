@@ -1,6 +1,7 @@
 package libraymanage.practice.librarypracticeapp.Security.Filter;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 import libraymanage.practice.librarypracticeapp.Security.SecurityConstant;
@@ -34,6 +37,12 @@ public class FilterJwtAuthorization extends OncePerRequestFilter {
         String token = header.replace(SecurityConstant.authorization, "");
         DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SecurityConstant.private_key)).build().verify(token);
         String email = decodedJWT.getSubject();
+        Long currentTime = new Date(System.currentTimeMillis()).getTime();
+        
+       if (decodedJWT.getExpiresAt().getTime() - currentTime > 0) {
+            throw new JWTVerificationException("the token is expire");
+       }
+
         List<String> claims = decodedJWT.getClaim("authorities").asList(String.class);
         List<SimpleGrantedAuthority> authorities = claims.stream().map(cla -> new SimpleGrantedAuthority(cla.toString())).collect(Collectors.toList());
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
