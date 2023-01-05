@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -49,7 +50,6 @@ public class SecurityConfig {
         http.csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-        // .antMatchers(HttpMethod.GET, "/userLogout").permitAll()
         .anyRequest().authenticated()
         .and()
         .authenticationProvider(authenticationProvider)
@@ -58,13 +58,18 @@ public class SecurityConfig {
         .addFilterAfter(new FilterJwtAuthorization(), filterAuthentication.getClass())
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.logout()
-        // .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutUrl("/userLogout")
-        .addLogoutHandler(customLogoutHandler)
+        http.logout()        
+        // .logoutUrl("/userLogout")
+        .permitAll()
+        .addLogoutHandler((request, response, auth) -> {
+            SecurityContextHolder.clearContext();
+            response.setHeader("Authorization", "");
+        })
+        .logoutSuccessHandler(customLogoutHandler)
         .invalidateHttpSession(true)
         .deleteCookies("token")
-        .permitAll();
+        ;
+        http.cors();
         return http.build();
     }
 
