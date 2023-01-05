@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import libraymanage.practice.librarypracticeapp.Entity.Book;
 import libraymanage.practice.librarypracticeapp.Entity.Checkout;
@@ -31,40 +32,40 @@ public class LibraryPracticeAppApplication {
 	@Bean
 	CommandLineRunner commandLineRunner(UserRepos userRepos, BookRepos bookRepos, CheckoutRepos checkoutRepos, HistoryRepos historyRepos, MessageRepos messageRepos, ReviewRepos reviewRepos) {
 		return args -> {
-			// Users admin = new Users("quan_admin", "123456");
-			// admin.setRole(Role.ADMIN);
-			// Users user1 = new Users("quan", "123456");
-			// user1.setRole(Role.USER);
-			// Users user2 = new Users("khanh", "123456");
-			// user2.setRole(Role.USER);
-			// userRepos.save(admin);
-			// userRepos.save(user2);
-			// userRepos.save(user1);
+			Users admin = new Users("quan_admin@gmail.com", new BCryptPasswordEncoder().encode("123456"), "quan_admin");
+			admin.setRole(Role.ADMIN);
+			Users user1 = new Users("quan@gmail.com", new BCryptPasswordEncoder().encode("123456"), "quan");
+			user1.setRole(Role.USER);
+			Users user2 = new Users("khanh@gmail.com", new BCryptPasswordEncoder().encode("123456"), "khanh");
+			user2.setRole(Role.USER);
+			userRepos.save(admin);
+			userRepos.save(user2);
+			userRepos.save(user1);
 			
-			// Book book1 = new Book("react programming", "Brad Traversy", "react, redux, reducer, hook", 20, 20, "technology");
-			// Book book2 = new Book("java programming", "Big lurvy", "java core and spring boot", 20, 20, "technology");
-			// Book book3 = new Book("c# programming", "Mosh", "c# core and asp.net", 20, 20, "technology");
-			// bookRepos.save(book1);
-			// bookRepos.save(book2);
-			// bookRepos.save(book3);
+			Book book1 = new Book("react programming", "Brad Traversy", "react, redux, reducer, hook", 20, 20, "technology");
+			Book book2 = new Book("java programming", "Big lurvy", "java core and spring boot", 20, 20, "technology");
+			Book book3 = new Book("c# programming", "Mosh", "c# core and asp.net", 20, 20, "technology");
+			bookRepos.save(book1);
+			bookRepos.save(book2);
+			bookRepos.save(book3);
 
-			// Checkout checkout1 = new Checkout(LocalDateTime.of(2022, 10, 12, 10, 55), LocalDateTime.of(2022, 12, 8, 14, 20), book1, user2);
-			// Checkout checkout2 = new Checkout(LocalDateTime.of(2021, 10, 12, 10, 55), LocalDateTime.of(2022, 10, 31, 14, 20), book2, user1);
-			// Checkout checkout3 = new Checkout(LocalDateTime.of(2022, 6, 10, 10, 55), LocalDateTime.of(2022, 8, 31, 14, 20), book3, user1);
-			// Checkout checkout4 = new Checkout(LocalDateTime.of(2022, 7, 10, 10, 55), LocalDateTime.of(2022, 8, 31, 14, 20), book3, user1);
-			// checkoutRepos.save(checkout1);
-			// checkoutRepos.save(checkout2);
-			// checkoutRepos.save(checkout3);
-			// checkoutRepos.save(checkout4);
+			Checkout checkout1 = new Checkout(LocalDateTime.of(2022, 10, 12, 10, 55), LocalDateTime.of(2022, 12, 8, 14, 20), book1, user2);
+			Checkout checkout2 = new Checkout(LocalDateTime.of(2021, 10, 12, 10, 55), LocalDateTime.of(2022, 10, 31, 14, 20), book2, user1);
+			Checkout checkout3 = new Checkout(LocalDateTime.of(2022, 6, 10, 10, 55), LocalDateTime.of(2022, 8, 31, 14, 20), book3, user1);
+			Checkout checkout4 = new Checkout(LocalDateTime.of(2022, 7, 10, 10, 55), LocalDateTime.of(2022, 8, 31, 14, 20), book3, user2);
+			checkoutRepos.save(checkout1);
+			checkoutRepos.save(checkout2);
+			checkoutRepos.save(checkout3);
+			checkoutRepos.save(checkout4);
 
-			// History history1 = new History(LocalDateTime.of(2021, 8, 12, 10, 55), LocalDateTime.of(2021, 12, 31, 14, 20), book1, user2);
-			// History history2 = new History(LocalDateTime.of(2019, 4, 12, 10, 55), LocalDateTime.of(2021, 12, 31, 14, 20), book2, user1);
-			// History history3 = new History(LocalDateTime.of(2020, 8, 12, 10, 55), LocalDateTime.of(2021, 3, 12, 14, 20), book2, user2);
-			// History history4 = new History(LocalDateTime.of(2016, 4, 12, 10, 55), LocalDateTime.of(2017, 12, 31, 14, 20), book3, user2);
-			// historyRepos.save(history1);
-			// historyRepos.save(history2);
-			// historyRepos.save(history3);
-			// historyRepos.save(history4);
+			History history1 = new History(LocalDateTime.of(2021, 8, 12, 10, 55), LocalDateTime.of(2021, 12, 31, 14, 20), book1, user2);
+			History history2 = new History(LocalDateTime.of(2019, 4, 12, 10, 55), LocalDateTime.of(2021, 12, 31, 14, 20), book2, user1);
+			History history3 = new History(LocalDateTime.of(2020, 8, 12, 10, 55), LocalDateTime.of(2021, 3, 12, 14, 20), book2, user2);
+			History history4 = new History(LocalDateTime.of(2016, 4, 12, 10, 55), LocalDateTime.of(2017, 12, 31, 14, 20), book3, user2);
+			historyRepos.save(history1);
+			historyRepos.save(history2);
+			historyRepos.save(history3);
+			historyRepos.save(history4);
 
 
 			// Review review1 = new Review(3, "it is good", book1, user2, LocalDateTime.of(2017, 6, 26, 16, 22));

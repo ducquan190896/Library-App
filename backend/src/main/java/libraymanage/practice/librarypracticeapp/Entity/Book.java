@@ -59,8 +59,8 @@ public class Book {
     @Column(name = "category", nullable = false)
     private String category;
 
-    @Column(name= "img")
-    private String img;
+    @Column(name= "img_url")
+    private String imgUrl;
 
     @JsonIgnore
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -74,14 +74,14 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
-    public Book( String title, String author, String description, int copies, int copiesAvailable, String category, String img) {
+    public Book( String title, String author, String description, int copies, int copiesAvailable, String category, String imgUrl) {
         this.title = title;
         this.author = author;
         this.description = description;
         this.copies = copies;
         this.copiesAvailable = copiesAvailable;
         this.category = category;
-        this.img = img;
+        this.imgUrl = imgUrl;
     }
 
     public Book( String title, String author, String description, int copies, int copiesAvailable, String category) {
@@ -115,8 +115,8 @@ public class Book {
     @Override
     public String toString() {
         return "Book [id=" + id + ", title=" + title + ", author=" + author + ", description=" + description
-                + ", copies=" + copies + ", copiesAvailable=" + copiesAvailable + ", category=" + category + ", img="
-                + img + "]";
+                + ", copies=" + copies + ", copiesAvailable=" + copiesAvailable + ", category=" + category + ", imgUrl="
+                + imgUrl + "]";
     }
 
     

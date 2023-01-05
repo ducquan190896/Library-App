@@ -45,7 +45,7 @@ public class History {
     @Column(name = "return_time", nullable = false)
     private LocalDateTime returnTime;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = 
+    @ManyToOne( fetch = 
     FetchType.EAGER)
     @JoinColumn(
         name = "book_id",
@@ -53,7 +53,7 @@ public class History {
     )
     private Book book;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = 
+    @ManyToOne( fetch = 
     FetchType.EAGER)
     @JoinColumn(
         name = "user_id",

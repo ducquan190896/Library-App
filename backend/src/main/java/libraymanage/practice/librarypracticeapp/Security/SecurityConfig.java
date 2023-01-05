@@ -3,6 +3,7 @@ package libraymanage.practice.librarypracticeapp.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,9 @@ public class SecurityConfig {
     @Autowired
     AuthenticationProvider authenticationProvider;
 
+    @Autowired
+    CustomLogoutHandler customLogoutHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception{
         FilterAuthentication filterAuthentication = new FilterAuthentication(customAuthenticationManager);
@@ -39,7 +43,8 @@ public class SecurityConfig {
 
         http.csrf().disable()
         .authorizeRequests()
-        .anyRequest().permitAll()
+        .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+        .anyRequest().authenticated()
         .and()
         .authenticationProvider(authenticationProvider)
         .addFilterBefore(filterException, filterAuthentication.getClass())
@@ -47,6 +52,12 @@ public class SecurityConfig {
         .addFilterAfter(new FilterJwtAuthorization(), filterAuthentication.getClass())
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        http.logout()
+        .logoutUrl("/userLogout")
+        .addLogoutHandler(customLogoutHandler)
+        .invalidateHttpSession(true)
+        .deleteCookies("token")
+        .permitAll();
         return http.build();
     }
 

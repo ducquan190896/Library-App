@@ -25,7 +25,7 @@ public class CustomAuthenticationManager implements AuthenticationManager {
     UserRepos userRepos;
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-       Optional<Users> entity = userRepos.findByEmail(authentication.getName()); 
+       Optional<Users> entity = userRepos.findByUsername(authentication.getName()); 
        if(!entity.isPresent()) {
         throw new EntityNotFoundException("the user with email " + authentication.getName() + " not found");
        }
@@ -36,6 +36,6 @@ public class CustomAuthenticationManager implements AuthenticationManager {
        }
        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
-       return new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), authorities);
+       return new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), authorities);
     }
 }

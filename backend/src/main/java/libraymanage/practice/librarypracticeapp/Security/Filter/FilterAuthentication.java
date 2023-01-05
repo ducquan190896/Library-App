@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,7 +36,7 @@ public class FilterAuthentication extends UsernamePasswordAuthenticationFilter{
             throws AuthenticationException {
         try {
             Users user = new ObjectMapper().readValue(request.getInputStream(), Users.class);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         return customAuthenticationManager.authenticate(authentication);
         } catch (IOException ex) {
             throw new RuntimeException(ex.getMessage());
@@ -57,8 +58,10 @@ public class FilterAuthentication extends UsernamePasswordAuthenticationFilter{
         .withSubject(authResult.getName())
         .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstant.expire_time))
         .withClaim("authorities", claims)
-        .sign(Algorithm.HMAC512(SPRING_SECURITY_FORM_PASSWORD_KEY));
-
+        .sign(Algorithm.HMAC512(SecurityConstant.private_key));
+        Cookie cookie = new Cookie("token", token);
+        response.addCookie(cookie);
+            
         response.setHeader("Authorization", SecurityConstant.authorization + token);
         
         response.setStatus(HttpServletResponse.SC_OK);

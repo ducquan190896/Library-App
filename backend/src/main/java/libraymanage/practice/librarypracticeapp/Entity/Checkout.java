@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 
-@Table(name = "checkout")
+@Table(name = "checkout", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "book_id"})})
 @Entity(name = "Checkout")
 @Getter
 @Setter
@@ -47,14 +47,14 @@ public class Checkout {
     @Column(name = "return_time", nullable = false)
     private LocalDateTime returnTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "book_id",
         referencedColumnName = "id"
     )
     private Book book;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "user_id",
         referencedColumnName = "id"

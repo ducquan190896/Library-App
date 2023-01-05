@@ -15,4 +15,9 @@ public interface UserRepos extends JpaRepository<Users, Long> {
         nativeQuery = true
     )
     Optional<Users> findByEmail(String email);
+    @Query(
+        value = "select * from users where username = ?",
+        nativeQuery = true
+    )
+    Optional<Users> findByUsername(String username);
 }

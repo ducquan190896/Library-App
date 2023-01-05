@@ -50,6 +50,10 @@ public class Users {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotBlank(message = "username cannot be blank")
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
     @NotBlank(message = "password cannot be blank")
     @Column(name = "password", nullable = false)
     private String password;
@@ -82,9 +86,10 @@ public class Users {
 
 
 
-    public Users(String email, String password) {
+    public Users(String email, String password, String username) {
         this.email = email;
         this.password = password;
+        this.username = username;
        
     }
 
