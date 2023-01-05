@@ -14,7 +14,7 @@ public class CustomLogoutHandler implements LogoutHandler  {
     
    @Override
    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-       SecurityContextHolder.clearContext();
+       SecurityContextHolder.getContext().setAuthentication(null);
        response.setHeader("Authorization", "");
       
    }

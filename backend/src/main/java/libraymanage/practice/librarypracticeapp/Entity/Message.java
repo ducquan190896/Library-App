@@ -37,7 +37,7 @@ public class Message {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(
         name = "user_id",
         referencedColumnName = "id"
@@ -52,7 +52,7 @@ public class Message {
     private LocalDateTime questionTime;
 
     @IsAdmin
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "admin_id",
         referencedColumnName = "id"
@@ -71,6 +71,19 @@ public class Message {
     private boolean closed;
 
 
+
+    public Message(String title, Users user, String question,
+            LocalDateTime questionTime, Users admin, String answer, LocalDateTime answerTime, boolean closed) {
+        this.title = title;
+        this.user = user;
+        this.question = question;
+        this.questionTime = questionTime;
+        this.admin = admin;
+        this.answer = answer;
+        this.answerTime = answerTime;
+        this.closed = closed;
+    }
+
     public Message( String title, Users user, String question,
             LocalDateTime questionTime) {
         this.title = title;
@@ -82,10 +95,18 @@ public class Message {
     }
 
     public void updateAnswer(String answer, Users admin, LocalDateTime answerTime) {
-        this.admin = admin;
-        this.answer = answer;
-        this.answerTime = answerTime;
-        this.closed = true;
+        // this.admin = admin;
+        // this.answer = answer;
+        // this.answerTime = answerTime;
+        // this.closed = true;
+        this.setAdmin(admin);
+        this.setAnswer(answer);
+        this.setAnswerTime(answerTime);
+        this.setClosed(true);
+    }
+
+    public boolean getClosed() {
+        return this.closed;
     }
     
 }

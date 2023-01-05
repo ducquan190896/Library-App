@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class userController {
     public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email) {
         return new ResponseEntity<UserResponse>(userService.getuserByEmail(email), HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<UserResponse>> getAll() {
         return new ResponseEntity<List<UserResponse>>(userService.getUsers(), HttpStatus.OK);
@@ -54,12 +56,12 @@ public class userController {
     public ResponseEntity<UserResponse> changePassword(@Valid @RequestBody ChangePassword changePassword) {
         return new ResponseEntity<UserResponse>(userService.updatePassword(changePassword), HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/updateToAdmin/{id}") 
     public ResponseEntity<UserResponse> updateRoleToAdmin(@PathVariable Long id) {
         return new ResponseEntity<UserResponse>(userService.updateToAdmin(id), HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/userId/{userId}")
     public ResponseEntity<HttpStatus> deleteUserByAdmin(@PathVariable Long userId) {
         userService.deleteUser(userId);

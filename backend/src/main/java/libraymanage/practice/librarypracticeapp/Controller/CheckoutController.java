@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import libraymanage.practice.librarypracticeapp.Service.CheckoutService;
 public class CheckoutController {
     @Autowired
     CheckoutService checkoutService;
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<Checkout>> getcheckouts() {
         return new ResponseEntity<List<Checkout>>(checkoutService.checkouts(), HttpStatus.OK);
@@ -34,7 +35,7 @@ public class CheckoutController {
     public ResponseEntity<List<Checkout>> getcheckoutByAuthUser() {
         return new ResponseEntity<List<Checkout>>(checkoutService.checkoutByAuthUser(), HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/book/{id}")
     public ResponseEntity<List<Checkout>> getcheckoutByBoook(@PathVariable Long id) {
         return new ResponseEntity<List<Checkout>>(checkoutService.checkoutByBook(id), HttpStatus.OK);

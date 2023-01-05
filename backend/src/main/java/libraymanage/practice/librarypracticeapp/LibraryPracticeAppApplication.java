@@ -68,23 +68,23 @@ public class LibraryPracticeAppApplication {
 			historyRepos.save(history4);
 
 
-			// Review review1 = new Review(3, "it is good", book1, user2, LocalDateTime.of(2017, 6, 26, 16, 22));
-			// Review review2 = new Review(5, "it is helpful", book2, user2, LocalDateTime.of(2018, 9, 26, 16, 22));
-			// Review review3 = new Review(2, "it is abstract", book3, user1, LocalDateTime.of(2020, 12, 26, 16, 22));
-			// Review review4 = new Review(4, "it is very knowledgeable", book2, user1, LocalDateTime.of(2019, 9, 5, 16, 22));
+			Review review1 = new Review(3, "it is good", book1, user2, LocalDateTime.of(2017, 6, 26, 16, 22));
+			Review review2 = new Review(5, "it is helpful", book2, user2, LocalDateTime.of(2018, 9, 26, 16, 22));
+			Review review3 = new Review(2, "it is abstract", book3, user1, LocalDateTime.of(2020, 12, 26, 16, 22));
+			Review review4 = new Review(4, "it is very knowledgeable", book2, user1, LocalDateTime.of(2019, 9, 5, 16, 22));
 
-			// reviewRepos.save(review1);
-			// reviewRepos.save(review2);
-			// reviewRepos.save(review3);
-			// reviewRepos.save(review4);
+			reviewRepos.save(review1);
+			reviewRepos.save(review2);
+			reviewRepos.save(review3);
+			reviewRepos.save(review4);
  
-			// Message message1 = new Message("data structure", user1, "i would like to search a book about agorithm", LocalDateTime.now());
-			// messageRepos.save(message1);
-			// message1.updateAnswer("it is not available now", admin, LocalDateTime.now().plusDays(3));
-			// messageRepos.save(message1);
+			Message message1 = new Message("data structure", user1, "i would like to search a book about agorithm", LocalDateTime.now());
+			messageRepos.save(message1);
+			message1.updateAnswer("it is not available now", admin, LocalDateTime.now().plusDays(3));
+			messageRepos.save(message1);
 
-			// Message message2 = new Message("spring security", user2, "i would like to search a spring security book", LocalDateTime.now());
-			// messageRepos.save(message2);
+			Message message2 = new Message("spring security", user2, "i would like to search a spring security book", LocalDateTime.now());
+			messageRepos.save(message2);
 			// message2.updateAnswer("it is already in the shelf 5", user1, LocalDateTime.now().plusDays(7));
 			// messageRepos.save(message2);
 			// Message message3 = new Message("react native", user1, "i would like to search a book about mobile programming", LocalDateTime.now());

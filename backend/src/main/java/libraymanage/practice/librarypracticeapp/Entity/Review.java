@@ -36,37 +36,28 @@ public class Review {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @RatingSize
+    // @RatingSize
     @Column(name = "rating", nullable = false)
     private int rating;
 
     @Column(name = "review_description")
     private String reviewDescription;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "book_id",
         referencedColumnName = "id"
     )
     private Book book;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "user_id",
         referencedColumnName = "id"
     )
     private Users user;
 
-    
 
-
-    public Review(int rating, String reviewDescription, Book book, Users user, LocalDateTime date) {
-        this.rating = rating;
-        this.reviewDescription = reviewDescription;
-        this.book = book;
-        this.user = user;
-        this.date = date;
-    }
 
 
 
@@ -76,4 +67,21 @@ public class Review {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
+        
+    
+
+  
+    public Review(int rating, String reviewDescription, Book book, Users user, LocalDateTime date) {
+        this.rating = rating;
+        this.reviewDescription = reviewDescription;
+        this.book = book;
+        this.user = user;
+        this.date = date;
+    }
+    public Review(int rating,  Book book, Users user, LocalDateTime date) {
+        this.rating = rating;
+        this.book = book;
+        this.user = user;
+        this.date = date;
+    }
 }

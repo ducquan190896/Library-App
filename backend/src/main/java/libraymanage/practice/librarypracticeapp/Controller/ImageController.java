@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class ImageController {
     public ResponseEntity<String> uploadImage(@RequestParam(name = "file") MultipartFile file) {
         return new ResponseEntity<String>(imageService.uploadImage(file), HttpStatus.CREATED);
     }
-
+    @PreAuthorize("permitAll()")
     @GetMapping("/{name}")
     public ResponseEntity<?> getImage(@PathVariable String name) {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_PNG).body(imageService.getImage(name));
@@ -37,7 +38,7 @@ public class ImageController {
     public ResponseEntity<String> uploadImage2(@RequestParam(name = "file") MultipartFile file) {
         return new ResponseEntity<String>(imageService.uploadimage2(file), HttpStatus.CREATED);
     }
-
+    @PreAuthorize("permitAll()")
     @GetMapping("/v2/{name}")
     public ResponseEntity<?> getimage2(@PathVariable String name) {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_PNG).body(imageService.getImage2(name));
