@@ -20,8 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import libraymanage.practice.librarypracticeapp.Entity.Users;
+import libraymanage.practice.librarypracticeapp.Entity.Response.UserResponse;
+import libraymanage.practice.librarypracticeapp.Repository.UserRepos;
 import libraymanage.practice.librarypracticeapp.Security.CustomAuthenticationManager;
 import libraymanage.practice.librarypracticeapp.Security.SecurityConstant;
 import lombok.AllArgsConstructor;
@@ -30,6 +33,9 @@ import lombok.AllArgsConstructor;
 public class FilterAuthentication extends UsernamePasswordAuthenticationFilter{
     @Autowired
     CustomAuthenticationManager customAuthenticationManager;
+
+    @Autowired
+    UserRepos userRepos;
     
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -53,6 +59,11 @@ public class FilterAuthentication extends UsernamePasswordAuthenticationFilter{
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
+        String username = authResult.getName();
+        Users user = userRepos.findByUsername(username).get();
+        UserResponse userResponse = new UserResponse(user.getId(), user.getEmail(), username, user.getRole());     
+        Gson gson = new Gson();
+
         List<String> claims = authResult.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.toList());
         String token = JWT.create()
         .withSubject(authResult.getName())
@@ -65,7 +76,8 @@ public class FilterAuthentication extends UsernamePasswordAuthenticationFilter{
         response.setHeader("Authorization", SecurityConstant.authorization + token);
         
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write("login successfully");
+        // response.getWriter().write("login successfully");
+        response.getWriter().print(gson.toJson(userResponse));
         response.getWriter().flush();
         
     }

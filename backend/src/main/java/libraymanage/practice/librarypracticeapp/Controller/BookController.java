@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import libraymanage.practice.librarypracticeapp.Entity.Book;
 import libraymanage.practice.librarypracticeapp.Service.BookService;
-
+   
 @RestController
 @RequestMapping("/api/books")
 public class BookController {

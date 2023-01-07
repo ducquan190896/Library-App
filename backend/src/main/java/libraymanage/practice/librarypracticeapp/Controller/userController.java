@@ -67,4 +67,11 @@ public class userController {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/test")
+    public ResponseEntity<String> testApiwithReactNative() {
+        return new ResponseEntity<String>("hello library app", HttpStatus.OK);
+    }
+
 }

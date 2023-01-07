@@ -15,7 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import libraymanage.practice.librarypracticeapp.Repository.UserRepos;
 import libraymanage.practice.librarypracticeapp.Security.Filter.FilterAuthentication;
 import libraymanage.practice.librarypracticeapp.Security.Filter.FilterException;
 import libraymanage.practice.librarypracticeapp.Security.Filter.FilterJwtAuthorization;
@@ -41,15 +44,20 @@ public class SecurityConfig {
 
     @Autowired
     CustomLogoutHandler customLogoutHandler;
+    @Autowired
+    UserRepos userRepos;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception{
-        FilterAuthentication filterAuthentication = new FilterAuthentication(customAuthenticationManager);
+        FilterAuthentication filterAuthentication = new FilterAuthentication(customAuthenticationManager, userRepos);
         filterAuthentication.setFilterProcessesUrl("/login");
 
         http.csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/books/**/*").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/reviews/**/*").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/users/test").permitAll()
         .anyRequest().authenticated()
         .and()
         .authenticationProvider(authenticationProvider)
@@ -73,6 +81,15 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // @Bean
+    // public WebMvcConfigurer corsConfigurer(){
+    //     return new WebMvcConfigurer() {
+    //         @Override
+    //         public void addCorsMappings(CorsRegistry registry) {
+    //             registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+    //         }
+    //     };
+    // }
     
 
 }
