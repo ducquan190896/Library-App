@@ -36,7 +36,7 @@ public class LibraryPracticeAppApplication {
 			admin.setRole(Role.ADMIN);
 			Users user1 = new Users("quan@gmail.com", new BCryptPasswordEncoder().encode("123456"), "quan");
 			user1.setRole(Role.USER);
-			Users user2 = new Users("khanh@gmail.com", new BCryptPasswordEncoder().encode("123456"), "khanh");
+			Users user2 = new Users("quan1@gmail.com", new BCryptPasswordEncoder().encode("123456"), "quan1");
 			user2.setRole(Role.USER);
 			userRepos.save(admin);
 			userRepos.save(user2);
@@ -54,6 +54,7 @@ public class LibraryPracticeAppApplication {
 			Checkout checkout3 = new Checkout(LocalDateTime.of(2022, 6, 10, 10, 55), LocalDateTime.of(2022, 8, 31, 14, 20), book3, user1);
 			Checkout checkout4 = new Checkout(LocalDateTime.of(2022, 7, 10, 10, 55), LocalDateTime.of(2022, 8, 31, 14, 20), book3, user2);
 			checkoutRepos.save(checkout1);
+			//checkout
 			checkoutRepos.save(checkout2);
 			checkoutRepos.save(checkout3);
 			checkoutRepos.save(checkout4);

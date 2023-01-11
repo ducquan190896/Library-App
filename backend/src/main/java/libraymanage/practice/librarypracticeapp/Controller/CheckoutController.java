@@ -52,9 +52,9 @@ public class CheckoutController {
     }
 
     @PutMapping("/extendReturn/{id}")
-    public ResponseEntity<HttpStatus> extendReturnTime(@PathVariable Long id) {
-        checkoutService.updateCheckout(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Checkout> extendReturnTime(@PathVariable Long id) {
+        
+        return new ResponseEntity<>(checkoutService.updateCheckout(id), HttpStatus.OK);
     }
 
     @PutMapping("/returnBook/{id}")

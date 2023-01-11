@@ -140,7 +140,7 @@ public class CheckoutServiceIml implements CheckoutService {
     }
 
     @Override
-    public void updateCheckout(Long id) {
+    public Checkout updateCheckout(Long id) {
         Optional<Checkout> entity = checkoutRepos.findById(id);
         Checkout checkout = isCheck(entity, id);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -164,9 +164,9 @@ public class CheckoutServiceIml implements CheckoutService {
                 throw new AppIllegalStateException("the time for returning the book is due, cannot extend it");
             }
             checkout.setReturnTime(checkout.getReturnTime().plusDays(10));
-            checkoutRepos.save(checkout);
+           return checkoutRepos.save(checkout);
         }
-      
+      return null;
     }
 
     private Checkout isCheck(Optional<Checkout> entity, Long id) {

@@ -11,7 +11,7 @@ public interface CheckoutService {
     List<Checkout> checkoutByAuthUser();
     Checkout getChechout(Long id);
     void createCheckout(Long bookId);
-    void updateCheckout(Long id);
+    Checkout updateCheckout(Long id);
     void turnCheckoutIntoHistorty(Long id);
     
 }
